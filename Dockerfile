@@ -31,6 +31,7 @@ RUN apk add --update \
   tiff-dev \
   tk-dev \
   libressl-dev \
+  rustup \
   zlib-dev
 
 RUN rustup update
@@ -61,4 +62,5 @@ RUN apk del \
   tiff-dev \
   tk-dev \
   libressl-dev \
+  rustup \
   zlib-dev
