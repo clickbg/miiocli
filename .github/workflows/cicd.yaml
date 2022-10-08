@@ -43,7 +43,7 @@ jobs:
   cleanup:
     runs-on: self-hosted
     environment: 'dev'
-    needs: [build, run, test]
+    needs: [build, run]
     if: always()
     steps:
       - uses: ./.github/actions/cleanup
