@@ -35,6 +35,7 @@ RUN apk add --update \
   libressl-dev \
   zlib-dev
 
+RUN rustup update
 RUN pip3 install -U pip3
 RUN pip3 install python-miio
 
