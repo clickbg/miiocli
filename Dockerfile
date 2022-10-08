@@ -24,8 +24,6 @@ RUN apk add --update \
   openssl-dev \
   pango-dev \
   poppler-utils \
-  postgresql-client \
-  postgresql-dev \
   py-cffi \
   python3-dev \
   rust \
@@ -36,8 +34,8 @@ RUN apk add --update \
   zlib-dev
 
 RUN rustup update
-RUN pip3 install -U pip3
-RUN pip3 install python-miio
+RUN pip install -U pip
+RUN pip install python-miio
 
 RUN apk del \
   build-base \
@@ -56,8 +54,6 @@ RUN apk del \
   openssl-dev \
   pango-dev \
   poppler-utils \
-  postgresql-client \
-  postgresql-dev \
   py-cffi \
   python3-dev \
   rust \
