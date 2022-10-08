@@ -40,16 +40,6 @@ jobs:
         with:
           build-id: ${{ needs.build.outputs.build-id }}
 
-  test:
-    runs-on: self-hosted
-    environment: 'dev'
-    needs: [build, run]
-    steps:
-      - uses: ./.github/actions/tests/ps
-        name: "Test if the container runs with all options on"
-        with:
-          name: ${{ needs.run.outputs.run-all-opts-name }}
-
   cleanup:
     runs-on: self-hosted
     environment: 'dev'
