@@ -18,4 +18,4 @@ RUN pip install python-miio
 
 RUN apt-get remove -y build-essential rustc libssl-dev libffi-dev python3-dev cargo \
     && apt-get autoremove -y \
-    && rm -rf /root/.cache/
+    && rm -rf /root/.cache /root/.cargo
