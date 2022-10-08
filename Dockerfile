@@ -1,66 +1,21 @@
-FROM python:alpine
+FROM python:slim
+
+ENV PYTHONUNBUFFERED 1
 
 RUN ln -s /usr/bin/dpkg-split /usr/sbin/dpkg-split
 RUN ln -s /usr/bin/dpkg-deb /usr/sbin/dpkg-deb
 RUN ln -s /bin/rm /usr/sbin/rm
 RUN ln -s /bin/tar /usr/sbin/tar
 
-ENV PYTHONUNBUFFERED 1
+RUN apt-get clean \
+    && apt-get update \
+    && apt-get install -y build-essential rustc libssl-dev libffi-dev python3-dev cargo \
+    && apt-get clean \
+    && rm -rf /tmp/* /var/lib/apt/lists/* /var/tmp/*
 
-RUN apk add --update \
-  build-base \
-  cairo \
-  cairo-dev \
-  cargo \
-  freetype-dev \
-  gcc \
-  gdk-pixbuf-dev \
-  gettext \
-  jpeg-dev \
-  lcms2-dev \
-  libffi-dev \
-  musl-dev \
-  openjpeg-dev \
-  openssl-dev \
-  pango-dev \
-  poppler-utils \
-  py-cffi \
-  python3-dev \
-  rust \
-  tcl-dev \
-  tiff-dev \
-  tk-dev \
-  libressl-dev \
-  rustup \
-  zlib-dev
-
-RUN rustup update
 RUN pip install -U pip
 RUN pip install python-miio
 
-RUN apk del \
-  build-base \
-  cairo \
-  cairo-dev \
-  cargo \
-  freetype-dev \
-  gcc \
-  gdk-pixbuf-dev \
-  gettext \
-  jpeg-dev \
-  lcms2-dev \
-  libffi-dev \
-  musl-dev \
-  openjpeg-dev \
-  openssl-dev \
-  pango-dev \
-  poppler-utils \
-  py-cffi \
-  python3-dev \
-  rust \
-  tcl-dev \
-  tiff-dev \
-  tk-dev \
-  libressl-dev \
-  rustup \
-  zlib-dev
+RUN apt-get remove -y build-essential rustc libssl-dev libffi-dev python3-dev cargo \
+    && apt-get autoremove -y \
+    && rm -rf /root/.cache/

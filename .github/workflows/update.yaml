@@ -17,7 +17,7 @@ jobs:
       id: check
       uses: lucacome/docker-image-update-checker@v1
       with:
-        base-image: library/python:alpine
+        base-image: library/python:slim
         image: clickbg/miiocli:latest
 
   cicd:
