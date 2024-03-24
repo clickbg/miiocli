@@ -1,0 +1,52 @@
+name: "CICD"
+
+on:
+  push:
+    branches:
+      - '**'
+  workflow_call:
+  workflow_dispatch:
+      
+jobs:
+
+  setup:
+    runs-on: self-hosted
+    environment: 'dev'
+    steps:
+      - uses: actions/checkout@v3
+        name: "Checkout code"
+
+  build:
+    runs-on: self-hosted
+    environment: 'dev'
+    needs: setup
+    outputs:
+      build-id: ${{ steps.build.outputs.build-id }}
+    steps:
+      - uses: ./.github/actions/build-container
+        name: "Build container image"
+        id: build
+
+  run:
+    runs-on: self-hosted
+    environment: 'dev'
+    needs: build
+    outputs:
+      run-all-opts-name: ${{ steps.run-all-opts.outputs.name }}
+    steps:
+      - uses: ./.github/actions/run-container-all-opts
+        name: "Start the container with all options set"
+        id: run-all-opts
+        with:
+          build-id: ${{ needs.build.outputs.build-id }}
+
+  cleanup:
+    runs-on: self-hosted
+    environment: 'dev'
+    needs: [build, run]
+    if: always()
+    steps:
+      - uses: ./.github/actions/cleanup
+        with: 
+          images: miiocli:${{ needs.build.outputs.build-id }}
+          containers: miiocli-${{ needs.run.outputs.run-all-opts-name }} 
