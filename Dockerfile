@@ -16,6 +16,7 @@ RUN apt-get clean \
 
 RUN pip install -U pip
 RUN --mount=type=tmpfs,target=/root/.cargo pip install python-miio
+RUN pip install "click==8.1.7"
 
 RUN apt-get remove -y build-essential rustc libssl-dev libffi-dev python3-dev cargo pkg-config \
     && apt-get autoremove -y \
